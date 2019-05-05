@@ -3,6 +3,8 @@
 #include <QGeoPath>
 #include <QLoggingCategory>
 
+#include "pathinformation.h"
+
 class QJSEngine;
 class QQmlEngine;
 
@@ -23,7 +25,14 @@ public:
      */
     static GpxManager* self();
 
-    Q_INVOKABLE void open(const QUrl& fileName);
+    /**
+     * @brief Open list of files
+     *
+     * @param fileNames
+     */
+    Q_INVOKABLE void open(const QString& fileNames);
+    Q_INVOKABLE void open(const QStringList& fileNames);
+
     /**
      * @brief Return a pointer of this singleton to the qml register function
      *
@@ -33,26 +42,21 @@ public:
      */
     static QObject* qmlSingletonRegister(QQmlEngine* engine, QJSEngine* scriptEngine);
 
-    QGeoPath geoPath() { return _path; };
-    Q_PROPERTY(QVariantList path READ path NOTIFY pathChanged)
+    Q_PROPERTY(QVariantList paths READ paths NOTIFY pathsChanged)
 
-    Q_INVOKABLE QVariantList path() {
-        QVariantList b;
-        for(auto i : geoPath().path()) {
-            b.append(QVariant::fromValue(i));
-        }
-        return b;
+    Q_INVOKABLE QVariantList paths() {
+        return  _paths_ptr;
     };
 
 signals:
-    void pathChanged();
+    void pathsChanged();
 
 private:
+    QList<PathInformation> _paths;
+    QVariantList _paths_ptr;
     /**
      * @brief Construct a new Network Manager object
      *
      */
     GpxManager();
-
-    QGeoPath _path;
 };

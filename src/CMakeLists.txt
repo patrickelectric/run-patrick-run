@@ -1,6 +1,7 @@
 set(minimal_SRCS
     main.cpp
     gpxmanager.cpp
+    pathinformation.cpp
 )
 
 set(CMAKE_INCLUDE_CURRENT_DIR ON)

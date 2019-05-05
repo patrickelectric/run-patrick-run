@@ -12,40 +12,22 @@ Q_LOGGING_CATEGORY(GPX_MANAGER, "run.gpx_manager")
 
 GpxManager::GpxManager() = default;
 
-void GpxManager::open(const QUrl& fileName)
+void GpxManager::open(const QString& fileNames)
 {
-    QList<QGeoCoordinate> path;
-    //QString gpxkmlPath(file);
-    QFileInfo gpxkmlFile(fileName.path());
-    QFile file(gpxkmlFile.absoluteFilePath());
-    if (!file.open(QIODevice::ReadOnly | QIODevice::Text)) {
-        qDebug() << "can't open file";
-        return;
+    open(fileNames.split("\n"));
+}
+
+void GpxManager::open(const QStringList& fileNames)
+{
+    _paths.clear();
+    _paths_ptr.clear();
+
+    for(const auto& fileName : fileNames) {
+        _paths.append(PathInformation{fileName, this});
+        _paths_ptr.append(QVariant::fromValue(&_paths.last()));
     }
 
-    QXmlStreamReader xmlReader(&file);
-    //Parse the XML until we reach end of it
-    while(!xmlReader.atEnd()) {
-        if(xmlReader.tokenType() == QXmlStreamReader::StartDocument) {
-            xmlReader.readNext();
-            continue;
-        }
-        if (xmlReader.tokenType() == QXmlStreamReader::StartElement) {
-            if (xmlReader.name() == "trkpt") {
-                path.append({xmlReader.attributes().value("lat").toDouble(), xmlReader.attributes().value("lon").toDouble()});
-            } else if (xmlReader.name() == "heartrate") {
-                //qDebug() << xmlReader.readElementText();
-            } else if (xmlReader.name() == "time") {
-                //qDebug() << xmlReader.readElementText();
-            } else if (xmlReader.name() == "ele") {
-                //qDebug() << xmlReader.readElementText();
-            }
-        }
-        xmlReader.readNext();
-    }
-
-    _path.setPath(path);
-    emit pathChanged();
+    emit pathsChanged();
 }
 
 QObject* GpxManager::qmlSingletonRegister(QQmlEngine* engine, QJSEngine* scriptEngine)
