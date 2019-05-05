@@ -31,7 +31,7 @@ Kirigami.ApplicationWindow {
                     popup.z: 9999
                     onCurrentTextChanged: {
                         print(currentText)
-                        map.plugin.name = currentText
+                        //map.plugin.name = currentText
                     }
                 }
                 CheckBox {
@@ -68,7 +68,7 @@ Kirigami.ApplicationWindow {
         MapPolyline {
             line.width: 3
             line.color: 'green'
-            path: GpxManager.path
+            path: GpxManager.paths != undefined ? GpxManager.paths[0].path : undefined
             onPathChanged: {
                 map.center = path[0]
                 map.zoomLevel = 14
