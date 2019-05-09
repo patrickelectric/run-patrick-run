@@ -1,5 +1,6 @@
 #pragma once
 
+#include <QDateTime>
 #include <QGeoPath>
 #include <QLoggingCategory>
 
@@ -74,9 +75,12 @@ signals:
     void pathChanged();
 
 private:
+    QVector<float> _elevations;
+    QVector<float> _heartRates;
     int _loops;
     QString _name;
     QGeoPath _path;
+    QVector<QDateTime> _timeStamp;
 };
 
 Q_DECLARE_METATYPE(PathInformation*)

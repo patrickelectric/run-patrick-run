@@ -42,15 +42,18 @@ void PathInformation::open(const QString& fileName)
             xmlReader.readNext();
             continue;
         }
+        // Vector sizes are different
+        // TODO: investigate it
         if (xmlReader.tokenType() == QXmlStreamReader::StartElement) {
             if (xmlReader.name() == "trkpt") {
                 path.append({xmlReader.attributes().value("lat").toDouble(), xmlReader.attributes().value("lon").toDouble()});
             } else if (xmlReader.name() == "heartrate") {
-                //qDebug() << xmlReader.readElementText();
+                _heartRates.append(xmlReader.readElementText().toFloat());
             } else if (xmlReader.name() == "time") {
-                //qDebug() << xmlReader.readElementText();
+                // Date is saved in ZT format inside gpx. E.g: "2019-05-03T00:09:11Z"
+                _timeStamp.append(QDateTime::fromString(xmlReader.readElementText(), QStringLiteral("yyyy-MM-ddTHH:mm:ssZ")));
             } else if (xmlReader.name() == "ele") {
-                //qDebug() << xmlReader.readElementText();
+                _elevations.append(xmlReader.readElementText().toFloat());
             }
         }
         xmlReader.readNext();
