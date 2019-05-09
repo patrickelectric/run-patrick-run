@@ -90,9 +90,9 @@ Kirigami.ApplicationWindow {
             MapPolyline {
                 line.width: 3
                 line.color: 'green'
-                path: GpxManager.paths[index].path
+                path: modelData.path
                 onPathChanged: {
-                    map.center = path[0]
+                    map.center = modelData.center
                     map.zoomLevel = 14
                 }
 
