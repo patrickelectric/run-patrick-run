@@ -54,6 +54,9 @@ public:
     Q_INVOKABLE int loops() { return _loops; };
     Q_PROPERTY(int loops READ loops NOTIFY loopsChanged)
 
+    Q_INVOKABLE QString name() { return _name; };
+    Q_PROPERTY(QString name READ name NOTIFY nameChanged)
+
     /**
      * @brief Count the number of loops in trajectory
      *
@@ -67,10 +70,12 @@ public:
 signals:
     void centerChanged();
     void loopsChanged();
+    void nameChanged();
     void pathChanged();
 
 private:
     int _loops;
+    QString _name;
     QGeoPath _path;
 };
 

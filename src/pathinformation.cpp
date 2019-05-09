@@ -32,6 +32,9 @@ void PathInformation::open(const QString& fileName)
         return;
     }
 
+    _name = gpxkmlFile.baseName();
+    emit nameChanged();
+
     QXmlStreamReader xmlReader(&file);
     //Parse the XML until we reach end of it
     while(!xmlReader.atEnd()) {
