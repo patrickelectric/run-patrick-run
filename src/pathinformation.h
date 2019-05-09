@@ -48,14 +48,29 @@ public:
     };
     Q_PROPERTY(QVariantList path READ path NOTIFY pathChanged)
 
+    Q_INVOKABLE QGeoCoordinate center() { return _path.center(); };
+    Q_PROPERTY(QGeoCoordinate center READ center NOTIFY centerChanged)
+
+    Q_INVOKABLE int loops() { return _loops; };
+    Q_PROPERTY(int loops READ loops NOTIFY loopsChanged)
+
+    /**
+     * @brief Count the number of loops in trajectory
+     *
+     */
+    void updateLoopCounter();
+
     const PathInformation& operator=(const PathInformation& other);
 
     ~PathInformation();
 
 signals:
+    void centerChanged();
+    void loopsChanged();
     void pathChanged();
 
 private:
+    int _loops;
     QGeoPath _path;
 };
 
