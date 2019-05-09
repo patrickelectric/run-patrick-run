@@ -23,8 +23,8 @@ void GpxManager::open(const QStringList& fileNames)
     _paths_ptr.clear();
 
     for(const auto& fileName : fileNames) {
-        _paths.append(PathInformation{fileName, this});
-        _paths_ptr.append(QVariant::fromValue(&_paths.last()));
+        _paths.append(QSharedPointer<PathInformation>(new PathInformation(fileName, this)));
+        _paths_ptr.append(QVariant::fromValue(_paths.last().get()));
     }
 
     emit pathsChanged();

@@ -52,7 +52,7 @@ signals:
     void pathsChanged();
 
 private:
-    QList<PathInformation> _paths;
+    QList<QSharedPointer<PathInformation>> _paths;
     QVariantList _paths_ptr;
     /**
      * @brief Construct a new Network Manager object
