@@ -75,6 +75,7 @@ Kirigami.ApplicationWindow {
 
         Repeater {
             model: GpxManager.paths
+
             MapPolyline {
                 line.width: 3
                 line.color: 'green'
@@ -83,6 +84,19 @@ Kirigami.ApplicationWindow {
                     map.center = path[0]
                     map.zoomLevel = 14
                 }
+
+                Component.onCompleted: map.addMapItem(this)
+            }
+        }
+
+        Repeater {
+            model: GpxManager.paths
+
+            MapCircle {
+                center: GpxManager.paths[index].center
+                radius: 10.0
+                color: 'blue'
+                border.width: 1
 
                 Component.onCompleted: map.addMapItem(this)
             }
