@@ -68,7 +68,12 @@ void PathInformation::open(const QString& fileName)
                 _pathContent.sync();
                 _pathContent.path.addCoordinate({xmlReader.attributes().value("lat").toDouble(), xmlReader.attributes().value("lon").toDouble()});
             } else if (xmlReader.name() == "heartrate") {
-                _pathContent.heartRates.append(xmlReader.readElementText().toFloat());
+                float rate = xmlReader.readElementText().toFloat();
+                // Repeat last value if sensor report zero
+                // let _pathContent.sync() to add that for us
+                if (rate != 0) {
+                    _pathContent.heartRates.append(rate);
+                }
             } else if (xmlReader.name() == "time") {
                 // Date is saved in ZT format inside gpx. E.g: "2019-05-03T00:09:11Z"
                 _pathContent.timeStamps.append(QDateTime::fromString(xmlReader.readElementText(), QStringLiteral("yyyy-MM-ddTHH:mm:ssZ")));
