@@ -21,7 +21,6 @@ PathInformation::PathInformation(const PathInformation& other)
     , _loops(other._loops)
     , _name(other._name)
 {
-    emit centerChanged();
     emit loopsChanged();
     emit nameChanged();
     emit pathChanged();
@@ -81,7 +80,6 @@ void PathInformation::open(const QString& fileName)
         xmlReader.readNext();
     }
 
-    emit centerChanged();
     emit pathChanged();
     updateLoopCounter();
 }
@@ -116,7 +114,6 @@ const PathInformation& PathInformation::operator=(const PathInformation& other)
     _pathContent = other._pathContent;
     _loops =other._loops;
     _name = other._name;
-    emit centerChanged();
     emit loopsChanged();
     emit nameChanged();
     emit pathChanged();

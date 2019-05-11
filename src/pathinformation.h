@@ -50,7 +50,7 @@ public:
     Q_PROPERTY(QVariantList path READ path NOTIFY pathChanged)
 
     Q_INVOKABLE QGeoCoordinate center() { return _pathContent.path.center(); };
-    Q_PROPERTY(QGeoCoordinate center READ center NOTIFY centerChanged)
+    Q_PROPERTY(QGeoCoordinate center READ center NOTIFY pathChanged)
 
     Q_INVOKABLE int loops() { return _loops; };
     Q_PROPERTY(int loops READ loops NOTIFY loopsChanged)
@@ -69,7 +69,6 @@ public:
     ~PathInformation();
 
 signals:
-    void centerChanged();
     void loopsChanged();
     void nameChanged();
     void pathChanged();
