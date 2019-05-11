@@ -111,7 +111,7 @@ void PathInformation::updateLoopCounter()
         lastPoint = point;
     }
     _loops = floor(totalAngle/(2*M_PI));
-
+    emit loopsChanged();
 }
 
 const PathInformation& PathInformation::operator=(const PathInformation& other)
