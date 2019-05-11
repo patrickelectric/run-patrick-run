@@ -85,8 +85,8 @@ signals:
 private:
     struct PathContent {
         QGeoPath path;
-        QVector<float> elevations;
-        QVector<float> heartRates;
+        QVector<double> elevations;
+        QVector<double> heartRates;
         QVector<QDateTime> timeStamps;
 
         void sync() {
