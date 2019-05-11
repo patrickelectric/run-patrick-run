@@ -32,7 +32,7 @@ public:
      *
      * @return QGeoPath
      */
-    QGeoPath geoPath() const { return _path; };
+    QGeoPath geoPath() const { return _pathContent.path; };
 
     /**
      * @brief Get path in a QML friendly way
@@ -49,7 +49,7 @@ public:
     };
     Q_PROPERTY(QVariantList path READ path NOTIFY pathChanged)
 
-    Q_INVOKABLE QGeoCoordinate center() { return _path.center(); };
+    Q_INVOKABLE QGeoCoordinate center() { return _pathContent.path.center(); };
     Q_PROPERTY(QGeoCoordinate center READ center NOTIFY centerChanged)
 
     Q_INVOKABLE int loops() { return _loops; };
@@ -75,12 +75,22 @@ signals:
     void pathChanged();
 
 private:
-    QVector<float> _elevations;
-    QVector<float> _heartRates;
+    struct PathContent {
+        QGeoPath path;
+        QVector<float> elevations;
+        QVector<float> heartRates;
+        QVector<QDateTime> timeStamps;
+
+        void sync() {
+            if(path.size() == 0) { return; };
+            while(path.size() > elevations.size() && elevations.size()) elevations.append(elevations.last());
+            while(path.size() > heartRates.size() && heartRates.size()) heartRates.append(heartRates.last());
+            while(path.size() > timeStamps.size() && timeStamps.size()) timeStamps.append(timeStamps.last());
+        }
+    } _pathContent;
+
     int _loops;
     QString _name;
-    QGeoPath _path;
-    QVector<QDateTime> _timeStamp;
 };
 
 Q_DECLARE_METATYPE(PathInformation*)
