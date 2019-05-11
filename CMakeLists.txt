@@ -9,7 +9,7 @@ find_package(ECM REQUIRED CONFIG)
 find_package(Qt5 REQUIRED Core Quick Multimedia Test Widgets QuickControls2 Positioning)
 find_package(KF5Kirigami2)
 
-set(CMAKE_CXX_STANDARD 14)
+set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_EXTENSIONS OFF)
 set(CMAKE_AUTOMOC ON)
