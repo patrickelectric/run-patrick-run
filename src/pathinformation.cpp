@@ -41,6 +41,8 @@ void PathInformation::open(const QString& fileName)
     _name = gpxkmlFile.baseName();
     emit nameChanged();
 
+    bool metadataEnd = false;
+
     QXmlStreamReader xmlReader(&file);
     //Parse the XML until we reach end of it
     while(!xmlReader.atEnd()) {
@@ -48,6 +50,16 @@ void PathInformation::open(const QString& fileName)
             xmlReader.readNext();
             continue;
         }
+
+        // Wait for end of metadata
+        if(!metadataEnd) {
+            if(xmlReader.name() == "trk") {
+                metadataEnd = true;
+            }
+            xmlReader.readNext();
+            continue;
+        }
+
         // Vector sizes are different
         // TODO: investigate it
         if (xmlReader.tokenType() == QXmlStreamReader::StartElement) {
