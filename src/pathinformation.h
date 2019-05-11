@@ -58,6 +58,15 @@ public:
     Q_INVOKABLE QString name() { return _name; };
     Q_PROPERTY(QString name READ name NOTIFY nameChanged)
 
+    Q_INVOKABLE QVariantList timeStamps() {
+        QVariantList variantList;
+        for(const auto& i : _pathContent.timeStamps) {
+            variantList.append(QVariant::fromValue(i));
+        }
+        return variantList;
+    };
+    Q_PROPERTY(QVariantList timeStamps READ timeStamps NOTIFY pathChanged)
+
     /**
      * @brief Count the number of loops in trajectory
      *
