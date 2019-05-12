@@ -85,6 +85,9 @@ void PathInformation::open(const QString& fileName)
         xmlReader.readNext();
     }
 
+    auto firstTime = _pathContent.timeStamps.first().time();
+    auto lastTime = _pathContent.timeStamps.last().time();
+    _time = QTime::fromMSecsSinceStartOfDay(firstTime.msecsTo(lastTime));
     emit pathChanged();
     updateLoopCounter();
 }
@@ -100,12 +103,14 @@ void PathInformation::updateLoopCounter()
     auto lastPoint = path.first();
     double totalAngle = 0;
     auto center = _pathContent.path.center();
+    _distance = 0;
     for(const auto& point : path) {
         // https://en.wikipedia.org/wiki/Law_of_cosines
         // gamma = \arccos{\frac {a^{2}+b^{2}-c^{2}}{2ab}}
         double a = center.distanceTo(lastPoint);// hypot(point.latitude() - center.latitude(), point.longitude() - center.longitude());
         double b = center.distanceTo(point);//hypot(lastPoint.latitude() - center.latitude(), lastPoint.longitude() - center.longitude());
         double c = lastPoint.distanceTo(point);//hypot(lastPoint.latitude() - point.latitude(), lastPoint.longitude() - point.longitude());
+        _distance += c;
         double gamma = acos((pow(a, 2) + pow(b, 2) - pow(c, 2))/(2.0f*a*b));
         totalAngle += gamma;
         lastPoint = point;

@@ -67,6 +67,12 @@ public:
     };
     Q_PROPERTY(QVariantList timeStamps READ timeStamps NOTIFY pathChanged)
 
+    Q_INVOKABLE float distance() { return _distance; };
+    Q_PROPERTY(float distance READ distance NOTIFY loopsChanged)
+
+    Q_INVOKABLE QTime time() { return _time; };
+    Q_PROPERTY(QTime time READ time NOTIFY pathChanged)
+
     /**
      * @brief Count the number of loops in trajectory
      *
@@ -97,8 +103,10 @@ private:
         }
     } _pathContent;
 
+    float _distance;
     int _loops;
     QString _name;
+    QTime _time;
 };
 
 Q_DECLARE_METATYPE(PathInformation*)
