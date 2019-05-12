@@ -48,7 +48,7 @@ Kirigami.ApplicationWindow {
         width: 100
         height: 100
         delegate: Text {
-            text: modelData.name
+            text: modelData.name + " - " + (modelData.distance/1000).toFixed(2) + "km - " + Qt.formatDateTime(modelData.time, "hh:mm:ss")
         }
     }
 
